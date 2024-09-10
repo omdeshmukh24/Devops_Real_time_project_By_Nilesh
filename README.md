@@ -49,7 +49,7 @@ sudo yum install git
 
 - We need to go to `Manage Jenkins` -> `Manage Plugins`. Here we will install `Github Integration` and `Maven Integration` plugins.
 
-- Now we can run our Second job to check `Github integration` is working as expected. Create another FreeStyleJob as below:
+- Now we can run our First job to check `Github integration` is working as expected. Create another FreeStyleJob as below:
 ```sh
 SCM: Git
 URL: https://github.com/nileshlip/hello-world-Projects.git
@@ -343,7 +343,7 @@ provide password
 
 - We will create a Jenkins job with below properties:
 ```sh
-Name: BuildAndDeployOnContainer
+Name: BuildAndDeployOnContainer-CI
 Type: Maven Project
 SCM: https://github.com/nileshlip/hello-world-Projects.git
 POLL SCM: * * * * *
@@ -362,8 +362,8 @@ Remote directory://opt//docker                  (/home/dockeradmin)
 ```sh
 sudo su - 
 cd /opt
-mkdir docker
-chown -R dockeradmin:dockeradmin docker
+sudo mkdir docker
+sudo chown -R dockeradmin:dockeradmin docker
 ```
 
 - We have our Dockerfile under `/home/root`, we will move Dockerfile under `docker` directory and change ownership as well 
@@ -662,7 +662,7 @@ ansible-playbook regapp.yml --check
 ```sh
 
 under SSH server:
-host: ansiblehost
+host: ansible-server
 exec command: ansible-playbook /opt/docker/regapp.yml
 ```
 ### Step8: Create container on dockerhost using ansible playbook
@@ -724,11 +724,13 @@ ansible-playbook /opt/docker/regapp-deploy.yml
 ```YAML
 - Latest version of AWS CLI: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
 - kubectl latest version:
+
 sudo wget  https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl               
 sudo chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
 
 - eksctl latest version: https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html
+
 sudo wget https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_linux_amd64.tar.gz
 sudo tar -xvf eksctl_linux_amd64.tar.gz
 sudo mv eksctl /usr/local/bin
